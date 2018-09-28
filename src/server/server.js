@@ -12,6 +12,8 @@ const port = config.port;
 const domain = config.domain || 'localhost';
 const server = http.createServer(app);
 
+const createAdmin = require('./helpers/createDefaultAdmin');
+
 function onError(error) {
     if (error.syscall !== 'listen') {
         throw error;
@@ -47,10 +49,12 @@ function onListening() {
     console.log('\nhttp://' + domain + ':' + port + '/');
 }
 
-async function init() {
+async function init(db) {
     require('express-async-errors');
 
-    require('./app')(app);
+    require('./app')(app, db);
+
+    createAdmin();
 
     server.listen(port, domain);
 }

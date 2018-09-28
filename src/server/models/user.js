@@ -28,23 +28,22 @@ const schema = new Schema(
         },
 
         avatar: {
-            type    : String,
-           // required: true,
+            type: String,
             //default : 'public/default_avatar.jpg'
         },
 
-        type: {
-            type    : String,
-            required: true,
-            //enum    : CONSTANTS.USER_TYPES,
-            //default : CONSTANTS.USER_TYPE.USER
+        role: {
+            type    : Number,
+            required: true
         },
 
         password: {
             type    : String,
             required: false,
             select  : false
-        }
+        },
+
+        notifications: [],
 
     },
     {

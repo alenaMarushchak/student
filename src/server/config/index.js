@@ -17,5 +17,10 @@ module.exports = {
         name  : env.MONGO_DB_NAME || 'student',
         // user    : env.MONGO_USER_NAME || 'admin',
         // password: env.MONGO_USER_PASSWORD || 'admin'
+    },
+
+    admin:{
+        password: 'adminAdmin!Admin!Admin!',
+        email: 'admin@admin.com'
     }
 };

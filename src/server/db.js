@@ -20,7 +20,8 @@ module.exports.connect = function (config) {
         autoReconnect    : true,
         keepAlive        : true,
         reconnectTries   : 100,
-        reconnectInterval: 30000
+        reconnectInterval: 30000,
+        useNewUrlParser  : true
     };
 
     return new Promise((resolve, reject) => {
