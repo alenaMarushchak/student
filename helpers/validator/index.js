@@ -1,7 +1,7 @@
 'use strict';
 
 const parser = require('./parser');
-const schemas = require('./schemas');
+const schemas = require('./schemas/index');
 const validator = require('./validator');
 const middleware = require('./middleware');
 

@@ -6,7 +6,7 @@ const UserModel = require('../models/user');
 
 const SuperService = require('./super');
 
-const CONSTANTS = require('../constants');
+const CONSTANTS = require('../constants/index');
 
 const ObjectId = mongoose.Types.ObjectId;
 

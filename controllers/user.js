@@ -4,7 +4,7 @@ const userService = require('../services/user');
 
 const ERROR_MESSAGES = require('../constants/error');
 const RESPONSE_MESSAGES = require('../constants/response');
-const CONSTANTS = require('../constants');
+const CONSTANTS = require('../constants/index');
 
 const CustomError = require('../helpers/CustomError');
 const security = require('../helpers/security');

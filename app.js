@@ -6,13 +6,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('./config/session');
 
-const router = require('./routers');
+const router = require('./routers/index');
 const cors = require('./helpers/cors').default;
 
 module.exports = (app, db) => {
-    //app.use('/files', express.static(path.join(__dirname, 'files')));
-    app.use('/public', express.static(path.join(__dirname, 'public')));
-
     app.use(cors);
 
     app.use(session(db));

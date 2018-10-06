@@ -1,6 +1,6 @@
 const userService = require('../services/user');
-const config = require('../config');
-const CONSTANTS = require('../constants');
+const config = require('../config/index');
+const CONSTANTS = require('../constants/index');
 
 const security = require('./security');
 

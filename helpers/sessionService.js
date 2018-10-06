@@ -1,8 +1,8 @@
-const CustomError = require('../helpers/CustomError');
+const CustomError = require('./CustomError');
 const ERROR_MESSAGES = require('../constants/error');
 const RESPONSE_MESSAGES = require('../constants/response');
 
-const CONSTANTS = require('../constants');
+const CONSTANTS = require('../constants/index');
 
 module.exports.isAuthorize = function (req, res, next) {
     if (req.session && req.session.userId && req.session.role) {

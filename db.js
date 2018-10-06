@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+mongoose.set('useCreateIndex', true);
+
 function getMongoUrl(config) {
 
     let connectionString = 'mongodb://';

@@ -4,7 +4,7 @@ const express = require('express');
 
 const {isAuthorize, isAdmin, isTeacher, isStudent} = require('../helpers/sessionService');
 
-const admin = require('./admin');
+const admin = require('./admin/index');
 // const teacher = require('./teacher');
 // const student = require('./student');
 const profile = require('./profile');

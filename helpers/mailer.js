@@ -2,13 +2,16 @@ const nodemailer = require("nodemailer");
 
 class Mailer {
     constructor() {
-        this.smtpTransport = nodemailer.createTransport("SMTP", {
-            service: "Gmail",
-            auth   : {
-                user: "maruschak68@gmail.com",
-                pass: "000999qqqfinger"
-            }
-        });
+        this.smtpTransport = nodemailer.createTransport(
+            {
+                host  : 'smtp.gmail.com',
+                secure: false,
+                auth  : {
+                    user: "maruschak68@gmail.com",
+                    pass: "000999qqqfinger"
+                }
+            });
+
 
         this.FROM = 'studentmanagementsystem@blurdybloop.com'
     }
@@ -33,7 +36,7 @@ class Mailer {
         });
     }
 
-    sendInvite(email, params){
+    sendInvite(email, params) {
         return this.sendMail({
             email,
             subject: 'You are invited to Student Management System',

@@ -3,7 +3,7 @@
 const fs = require('fs');
 
 const parser = require('./parser');
-const schemas = require('./schemas');
+const schemas = require('./schemas/index');
 const validator = require('./validator');
 
 const deleteFile = function (path) {
