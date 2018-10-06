@@ -17,7 +17,7 @@ module.exports = {
         },
         length  : {
             minimum: 8,
-            maximum: 16
+            maximum: 50
         }
     }
 };

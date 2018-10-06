@@ -2,7 +2,7 @@
 
 const env = process.env;
 
-const port = +env.PORT || 3000;
+const port = +env.PORT || 3001;
 const domain = env.DOMAIN || 'localhost';
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
     },
 
     admin:{
-        password: 'adminAdmin!Admin!Admin!',
+        password: 'admin12345',
         email: 'admin@admin.com'
     }
 };

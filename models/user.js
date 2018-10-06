@@ -39,12 +39,9 @@ const schema = new Schema(
 
         password: {
             type    : String,
-            required: false,
-            select  : false
         },
 
         notifications: [],
-
     },
     {
         timestamps: true,

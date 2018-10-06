@@ -7,11 +7,11 @@ const {isAuthorize, isAdmin, isTeacher, isStudent} = require('../helpers/session
 const admin = require('./admin/index');
 // const teacher = require('./teacher');
 // const student = require('./student');
-const profile = require('./profile');
+const auth = require('./auth');
 
 const router = express.Router();
 
-router.use(profile);
+router.use(auth);
 
 router.use(isAuthorize);
 

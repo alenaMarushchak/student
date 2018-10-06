@@ -45,12 +45,12 @@ class UserService extends SuperService {
 
         if (forAdmin) {
             return {
-                _id     : result._id,
-                email   : result.email,
-                role    : result.role,
-                userName: result.userName,
-                fullName: result.fullName,
-                avatar  : result.avatar,
+                _id      : result._id,
+                email    : result.email,
+                role     : result.role,
+                firstName: result.firstName,
+                lastName : result.lastName,
+                avatar   : result.avatar,
             };
         }
 
@@ -58,8 +58,8 @@ class UserService extends SuperService {
             _id          : result._id,
             email        : result.email,
             role         : result.role,
-            userName     : result.userName,
-            fullName     : result.fullName,
+            firstName    : result.firstName,
+            lastName     : result.lastName,
             avatar       : result.avatar,
             notifications: result.notifications
         }

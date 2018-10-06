@@ -19,11 +19,17 @@ class UserController {
 
         let {email, password} = body;
 
-        password = await security.hash(password);
-
-        const userModel = await userService.findOne({email, password});
+        let userModel = await userService.findOne({email});
 
         if (!userModel) {
+            throw new CustomError(400, ERROR_MESSAGES.INCORRECT('email or password'));
+        }
+
+        const userPassword = userModel.get('password');
+
+        const correctPassword = await security.compare(password, userPassword);
+
+        if (!correctPassword) {
             throw new CustomError(400, ERROR_MESSAGES.INCORRECT('email or password'));
         }
 
