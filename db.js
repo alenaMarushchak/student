@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);//todo remove in future
 
 function getMongoUrl(config) {
 

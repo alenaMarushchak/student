@@ -1,7 +1,9 @@
 module.exports.default = (req, res, next) => {
     const browser = req.headers['user-agent'];
+    const origin = req.headers['origin'];
 
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Credentials", true);
     res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, PATCH, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Content-Disposition, authorization');
 

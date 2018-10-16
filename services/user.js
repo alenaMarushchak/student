@@ -104,7 +104,10 @@ class UserService extends SuperService {
             }
         );
 
-        return Promise.all([this.count(match), this.aggregate(aggregateParams)]);
+        return Promise.all([
+            this.count(match),
+            this.aggregate(aggregateParams)
+        ]);
     }
 }
 

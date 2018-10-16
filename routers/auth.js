@@ -13,6 +13,6 @@ router.post('/signIn', validatorMiddleware().body('USER_SIGN_IN').middleware(), 
 
 router.get('/', isAuthorize, userController.getUserProfile);
 
-router.delete('/signOut', isAuthorize, userController.signOut);
+router.delete('/signOut', userController.signOut);
 
 module.exports = router;

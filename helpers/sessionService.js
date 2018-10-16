@@ -9,14 +9,6 @@ module.exports.isAuthorize = function (req, res, next) {
         return next();
     }
 
-    if (req.session && req.session.userId) {
-        req.session.destroy(function (err) {
-            if (err) {
-                console.error(err);
-            }
-        });
-    }
-
     return next(new CustomError(401, ERROR_MESSAGES.UNAUTHORIZED));
 };
 
@@ -24,11 +16,7 @@ module.exports.register = function (req, res, user) {
     req.session.loggedIn = true;
     req.session.userId = user._id;
     req.session.role = user.role;
-    req.session.save(function (err) {
-        if (err) {
-            console.error(err);
-        }
-    });
+    req.session.save();
 
     res.status(200).send(user);
 };

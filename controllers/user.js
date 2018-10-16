@@ -41,7 +41,7 @@ class UserController {
     }
 
     async getUserProfile(req, res) {
-        const {session: userId} = req;
+        const {userId} = req.session;
 
         const userProfile = await userService.getUserProfile(userId);
 
@@ -73,11 +73,11 @@ class UserController {
 
         res.status(201).send(userService.getUserProjection(userModel, true));
 
-        try {
-            mailer.sendInvite(email, {password});
-        } catch (err) {
-            console.log(err);
-        }
+        // try {
+        //     mailer.sendInvite(email, {password});
+        // } catch (err) {
+        //     console.log(err);
+        // }
     }
 
     async updateUser(req, res) {
@@ -158,6 +158,19 @@ class UserController {
         };
 
         res.status(200).send({meta, data});
+    }
+
+    async getUserById(req, res) {
+        const {params: {id: userId}} = req;
+
+        const userProfile = await userService.getUserProfile(userId, true);
+
+        if (!userProfile) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('user'));
+        }
+
+
+        res.status(200).send(userProfile);
     }
 }
 

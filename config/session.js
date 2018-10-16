@@ -3,11 +3,8 @@ const MongoStore = require('connect-mongo')(session);
 
 module.exports = function (db) {
     return session({
-        name: 'userSession',
-        key : 'userSession',
-
-        secret           : '82e9e46262b351b79858455b24aa30956a016350e4a0ab5d725a9bc608d9b',
-        resave           : true,
+        secret           : '82e9e46262b351b79858455b24b',
+        resave           : false,
         saveUninitialized: true,
 
         store: new MongoStore({
@@ -19,9 +16,7 @@ module.exports = function (db) {
 
         cookie: {
             maxAge: 10 * 365 * 24 * 60 * 60 * 1000,
-            secure: false,
-
-            httpOnly: false
+            httpOnly: true
         },
 
         rolling: true
