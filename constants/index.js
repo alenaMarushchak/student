@@ -1,11 +1,13 @@
 module.exports = {
     MODEL: {
         USER: 'User',
-        GROUP: 'Group'
+        GROUP: 'Group',
+        SUBJECT: 'Subject'
     },
     COLLECTION: {
         USERS: 'Users',
-        GROUPS: 'Groups'
+        GROUPS: 'Groups',
+        SUBJECTS: 'Subjects'
     },
 
     ROLES: {
