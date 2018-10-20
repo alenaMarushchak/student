@@ -1,35 +1,35 @@
 'use strict';
 
 module.exports = {
-    email   : {
+    email    : {
         email   : {
             message: "'%{value}' is not valid"
         },
         presence: {
-            allowEmpty: false,
-            message   : "is required"
+            allowEmpty: true,
         }
     },
-    lastName       : {
+    lastName : {
         presence: {
-            message   : '%{value} is required',
-            allowEmpty: false
+            allowEmpty: true
         }
     },
-    firstName      : {
+    firstName: {
         presence: {
-            message   : '%{value} is required',
-            allowEmpty: false
+            allowEmpty: true
         }
     },
-    role: {
+    role     : {
         numericality: {
             onlyInteger: true,
         },
-        format: {
+        format      : {
             pattern: /[5,10]/,
-            flags: "i",
+            flags  : "i",
             message: "can only be 5 or 10"
+        },
+        presence    : {
+            allowEmpty: true
         }
     }
 

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const CONSTANTS = require('../constants/index');
+const CONSTANTS = require('../constants');
 
 const schema = new Schema(
     {
