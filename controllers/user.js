@@ -146,9 +146,11 @@ class UserController {
     async getUsersList(req, res) {
         const query = req.query;
 
+        const {search} = query;
+
         const {page, limit} = pagination(query);
 
-        const [total, data = []] = await userService.fetchUsers(page, limit);
+        const [total, data = []] = await userService.fetchUsers(page, limit, search);
 
         const meta = {
             page,

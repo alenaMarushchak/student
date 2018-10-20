@@ -65,16 +65,30 @@ class UserService extends SuperService {
         }
     }
 
-    fetchUsers(page, limit) {
+    fetchUsers(page, limit, search) {
         const aggregateParams = [];
         const skip = (page - 1) * limit;
+        const searchRegExp = new RegExp('.*' + search + '.*', 'ig');
         const match = {
             $or: [
                 {role: CONSTANTS.ROLES.STUDENT},
                 {role: CONSTANTS.ROLES.TEACHER}
             ]
-
         };
+
+        if (search) {
+            match.$or.push(
+                {
+                    firstName: {$regex: searchRegExp}
+                },
+                {
+                    lastName: {$regex: searchRegExp}
+                },
+                {
+                    email: {$regex: searchRegExp}
+                },
+            )
+        }
 
         aggregateParams.push(
             {
