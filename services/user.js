@@ -7,6 +7,7 @@ const UserModel = require('../models/user');
 const SuperService = require('./super');
 
 const CONSTANTS = require('../constants/index');
+const computeUrl = require('../helpers/computeUrl');
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -42,6 +43,11 @@ class UserService extends SuperService {
 
     getUserProjection(userModel, forAdmin) {
         const result = userModel.toJSON ? userModel.toJSON() : userModel;
+        let avatarUrl = '';
+
+        if (result.avatar) {
+            avatarUrl = computeUrl(result.avatar, CONSTANTS.FILES.BUCKETS.AVATAR);
+        }
 
         if (forAdmin) {
             return {
@@ -50,7 +56,7 @@ class UserService extends SuperService {
                 role     : result.role,
                 firstName: result.firstName,
                 lastName : result.lastName,
-                avatar   : result.avatar,
+                avatar   : avatarUrl,
             };
         }
 
@@ -60,21 +66,45 @@ class UserService extends SuperService {
             role         : result.role,
             firstName    : result.firstName,
             lastName     : result.lastName,
-            avatar       : result.avatar,
+            avatar       : avatarUrl,
             notifications: result.notifications
         }
     }
 
-    fetchUsers(page, limit) {
+    fetchUsers(page, limit, search) {
         const aggregateParams = [];
         const skip = (page - 1) * limit;
-        const match = {
-            $or: [
-                {role: CONSTANTS.ROLES.STUDENT},
-                {role: CONSTANTS.ROLES.TEACHER}
-            ]
+        const searchRegExp = new RegExp('.*' + search + '.*', 'ig');
+        let match = {};
+        const $or = [
+            {role: CONSTANTS.ROLES.STUDENT},
+            {role: CONSTANTS.ROLES.TEACHER}
+        ];
 
-        };
+        if (search) {
+            match = {
+                $and: [
+                    {$or},
+                    {
+                        $or: [
+                            {
+                                firstName: {$regex: searchRegExp}
+                            },
+                            {
+                                lastName: {$regex: searchRegExp}
+                            },
+                            {
+                                email: {$regex: searchRegExp}
+                            }
+                        ]
+                    }
+                ]
+            }
+        } else {
+            match = {
+                $or
+            }
+        }
 
         aggregateParams.push(
             {

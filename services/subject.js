@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-const GroupModel = require('../models/group');
+const SubjectModel = require('../models/subject');
 
 const SuperService = require('./super');
 
@@ -10,8 +10,8 @@ const CONSTANTS = require('../constants');
 
 const ObjectId = mongoose.Types.ObjectId;
 
-class GroupService extends SuperService {
-    getGroupProjection(groupModel) {
+class SubjectService extends SuperService {
+    getSubjectProjection(groupModel) {
         const result = groupModel.toJSON ? groupModel.toJSON() : groupModel;
 
         return {
@@ -20,7 +20,7 @@ class GroupService extends SuperService {
         }
     }
 
-    fetchGroups(page, limit, search) {
+    fetchSubjects(page, limit, search) {
         const skip = (page - 1) * limit;
         const match = {};
         const aggregatePipelines = [];
@@ -59,22 +59,21 @@ class GroupService extends SuperService {
         ]);
     }
 
-    getGroupById(groupId) {
+    getSubjectById(subjectId) {
         const aggregatePipelines = [];
 
         aggregatePipelines.push(
             {
                 $match: {
-                    _id: ObjectId(groupId)
+                    _id: ObjectId(subjectId)
                 }
             },
             //TODO add lookup
             {
                 $project: {
-                    _id     : 1,
-                    name    : 1,
-                    students: 1,
-                    subjects: 1,
+                    _id    : 1,
+                    name   : 1,
+                    teacher: 1,
                 }
             }
         );
@@ -83,4 +82,4 @@ class GroupService extends SuperService {
     }
 }
 
-module.exports = new GroupService(GroupModel);
+module.exports = new SubjectService(SubjectModel);

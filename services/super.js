@@ -27,7 +27,7 @@ class SuperService {
     }
 
     count(...args) {
-        return this.model.count(...args);
+        return this.model.countDocuments(...args);
     }
 
     aggregate(params) {
@@ -72,6 +72,22 @@ class SuperService {
 
     remove(...args) {
         return this.model.remove(...args);
+    }
+
+    deleteOne(...args){
+        return this.model.deleteOne(...args);
+    }
+
+    deleteMany(...args){
+        return this.model.deleteMany(...args);
+    }
+
+    updateOne(...args){
+        return this.model.updateOne(...args);
+    }
+
+    updateMany(...args){
+        return this.model.updateMany(...args);
     }
 
     removeById(...args) {

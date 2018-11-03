@@ -12,6 +12,8 @@ const {pagination, pages} = require('../helpers/parser');
 const generatePassword = require('../helpers/generateRandomPassword');
 const {register, destroy} = require('../helpers/sessionService');
 const mailer = require('../helpers/mailer');
+const fileHelper = require('../helpers/files');
+const computeUrl = require('../helpers/computeUrl');
 
 class UserController {
     async signIn(req, res) {
@@ -43,20 +45,26 @@ class UserController {
     async getUserProfile(req, res) {
         const {userId} = req.session;
 
-        const userProfile = await userService.getUserProfile(userId);
+        const userModel = await userService.getUserProfile(userId);
 
-        res.status(200).send(userProfile);
+        res.status(200).send(userService.getUserProjection(userModel));
     }
 
     async createUser(req, res) {
         const body = req.body;
 
-        const {email, role, firstName, lastName} = body;
+        let {email, role, firstName, lastName} = body;
 
         const userWithSameEmail = await userService.findOne({email});
 
         if (userWithSameEmail) {
             throw new CustomError(400, ERROR_MESSAGES.ALREADY_EXISTS('Email'));
+        }
+
+        role = +role;
+
+        if (role !== 5 && role !== 10) {
+            throw new CustomError(400, ERROR_MESSAGES.INCORRECT('role'))
         }
 
         let password = generatePassword(10);
@@ -92,6 +100,12 @@ class UserController {
         let updateObj = {};
         let {firstName, lastName, email, role} = body;
 
+        if (role) {
+            if (role !== 5 && role !== 10) {
+                throw new CustomError(400, ERROR_MESSAGES.INCORRECT('role'))
+            }
+        }
+
         if (firstName && userForUpdate.get('firstName') !== firstName) {
             updateObj.firstName = firstName;
         }
@@ -112,7 +126,7 @@ class UserController {
             throw new CustomError(400, ERROR_MESSAGES.NOTHING_TO_UPDATE);
         }
 
-        await userService.update(
+        await userService.updateOne(
             {
                 _id: userId
             },
@@ -129,7 +143,7 @@ class UserController {
     async deleteUser(req, res) {
         const {params: {id: userId}} = req;
 
-        await userService.remove(
+        await userService.deleteOne(
             {
                 _id : userId,
                 role: {
@@ -146,9 +160,13 @@ class UserController {
     async getUsersList(req, res) {
         const query = req.query;
 
+        let {search} = query;
+
+        search = _.escape(search);
+
         const {page, limit} = pagination(query);
 
-        const [total, data = []] = await userService.fetchUsers(page, limit);
+        const [total, data = []] = await userService.fetchUsers(page, limit, search);
 
         const meta = {
             page,
@@ -169,8 +187,46 @@ class UserController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('user'));
         }
 
-
         res.status(200).send(userProfile);
+    }
+
+    async updateUsersAvatar(req, res) {
+        const {
+            session: {
+                userId
+            },
+            file   : avatar
+        } = req;
+
+        if (!avatar) {
+            throw new CustomError(400, ERROR_MESSAGES.NOTHING_TO_UPDATE);
+        }
+
+        let userModel = await userService.findById(userId);
+
+        if (!userModel) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('user'));
+        }
+
+        let {avatar: oldAvatar} = userModel.toJSON();
+
+        if (oldAvatar) {
+            const oldAvatarUrl = computeUrl(oldAvatar, CONSTANTS.FILES.BUCKETS.AVATAR);
+
+            fileHelper.deleteFile(oldAvatarUrl).catch(console.error);
+        }
+
+        await userService.updateOne(
+            {_id: userId},
+            {
+                $set: {
+                    avatar: avatar.filename
+                }
+            });
+
+        const user = await userService.getUserProfile(userId);
+
+        res.status(200).send(userService.getUserProjection(user));
     }
 }
 

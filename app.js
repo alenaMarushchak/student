@@ -22,6 +22,7 @@ module.exports = (app, db) => {
         next();
     });
 
+    app.use('/files', express.static(path.join(__dirname, 'files')));
     app.use(logger('dev'));
     app.use(bodyParser.json({limit: '500mb'}));
     app.use(bodyParser.urlencoded({limit: '500mb', extended: true}));
