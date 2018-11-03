@@ -26,11 +26,6 @@ module.exports = {
         numericality: {
             onlyInteger: true,
         },
-        format: {
-            pattern: /[5,10]/,
-            flags: "i",
-            message: "can only be 5 or 10"
-        }
     }
 
 };

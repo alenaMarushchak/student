@@ -1,9 +1,9 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId;
-
 const Schema = mongoose.Schema;
+
+const ObjectId = Schema.Types.ObjectId;
 
 const CONSTANTS = require('../constants');
 
