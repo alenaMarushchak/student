@@ -1,7 +1,9 @@
 'use strict';
 
 const ID = require('./id');
+const GROUP_IDS = require('./groupIds');
 
 module.exports = {
-    ID
+    ID,
+    GROUP_IDS
 };

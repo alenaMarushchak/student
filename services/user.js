@@ -71,7 +71,7 @@ class UserService extends SuperService {
         }
     }
 
-    fetchUsers(page, limit, search) {
+    fetchUsers(page, limit, search, sortObj) {
         const aggregateParams = [];
         const skip = (page - 1) * limit;
         const searchRegExp = new RegExp('.*' + search + '.*', 'ig');
@@ -88,10 +88,14 @@ class UserService extends SuperService {
                     {
                         $or: [
                             {
-                                firstName: {$regex: searchRegExp}
-                            },
-                            {
-                                lastName: {$regex: searchRegExp}
+                                $and: [
+                                    {
+                                        firstName: {$regex: searchRegExp}
+                                    },
+                                    {
+                                        lastName: {$regex: searchRegExp}
+                                    },
+                                ]
                             },
                             {
                                 email: {$regex: searchRegExp}
@@ -109,13 +113,25 @@ class UserService extends SuperService {
         aggregateParams.push(
             {
                 $match: match
-            },
-            {
-                $sort: {
-                    createdAt: -1
+            });
+
+        if (Object.keys(sortObj).length) {
+            aggregateParams.push(
+                {
+                    $sort: sortObj
                 }
-            },
-            {
+            );
+        } else {
+            aggregateParams.push(
+                {
+                    $sort: {
+                        createdAt: 1
+                    }
+                }
+            );
+        }
+
+        aggregateParams.push({
                 $skip: skip
             },
             {

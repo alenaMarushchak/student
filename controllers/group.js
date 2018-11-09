@@ -1,6 +1,10 @@
 const _ = require('lodash');
+const mongoose = require('mongoose');
+
+const ObjectId = mongoose.Types.ObjectId;
 
 const groupService = require('../services/group');
+const subjectService = require('../services/subject');
 
 const ERROR_MESSAGES = require('../constants/error');
 const RESPONSE_MESSAGES = require('../constants/response');
@@ -10,8 +14,7 @@ const {pagination, pages} = require('../helpers/parser');
 
 const CustomError = require('../helpers/CustomError');
 
-
-class UserController {
+class GroupController {
 
     async createGroup(req, res) {
         const body = req.body;
@@ -89,7 +92,9 @@ class UserController {
 
         const {page, limit} = pagination(query);
 
-        const {search} = query;
+        let {search} = query;
+
+        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&").replace(/ +$/, '');
 
         const [total, data = []] = await groupService.fetchGroups(page, limit, search);
 
@@ -112,9 +117,79 @@ class UserController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
         }
 
-
         res.status(200).send(groupProfile);
+    }
+
+    async addSubjectToGroup(req, res) {
+        const {id: groupId, subjectId} = req.params;
+
+        const groupDocument = await groupService.findById(groupId).lean();
+
+        if (!groupDocument) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
+        }
+
+        const subjectDocument = await subjectService.findById(subjectId).lean();
+
+        if (!subjectDocument) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('subject'));
+        }
+
+        const {subjects} = groupDocument;
+
+        let hasSubject = subjects.find(subject => subject.toString() === subjectId);
+
+        if (hasSubject) {
+            return res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('add subject')});
+        }
+
+        await groupService.updateOne(
+            {_id: groupId},
+            {
+                $push: {
+                    subjects: ObjectId(subjectId)
+                }
+            }
+        );
+
+        res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('add subject')});
+
+    }
+
+    async removeSubjectFromGroup(req, res) {
+        const {id: groupId, subjectId} = req.params;
+
+        const groupDocument = await groupService.findById(groupId).lean();
+
+        if (!groupDocument) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
+        }
+
+        const subjectDocument = await subjectService.findById(subjectId).lean();
+
+        if (!subjectDocument) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('subject'));
+        }
+
+        const {subjects} = groupDocument;
+
+        let hasSubject = subjects.find(subject => subject.toString() === subjectId);
+
+        if (!hasSubject) {
+            return res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('remove subject')});
+        }
+
+        await groupService.updateOne(
+            {_id: groupId},
+            {
+                $pull: {
+                    subjects: ObjectId(subjectId)
+                }
+            }
+        );
+
+        res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('remove subject')});
     }
 }
 
-module.exports = new UserController();
+module.exports = new GroupController();

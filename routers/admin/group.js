@@ -11,6 +11,14 @@ router.get('/:id', validatorMiddleware().params('ID').middleware(), groupControl
 
 router.post('/', validatorMiddleware().body('GROUP_CREATE').middleware(), groupController.createGroup);
 
+router.patch('/:id/subject/:subjectId/add',
+    validatorMiddleware().params('GROUP_IDS').middleware(),
+    groupController.addSubjectToGroup);
+
+router.patch('/:id/subject/:subjectId/remove',
+    validatorMiddleware().params('GROUP_IDS').middleware(),
+    groupController.removeSubjectFromGroup);
+
 router.patch('/:id',
     validatorMiddleware().params('ID').middleware(),
     validatorMiddleware().body('UPDATE_GROUP').middleware(),

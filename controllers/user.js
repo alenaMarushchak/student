@@ -101,17 +101,19 @@ class UserController {
         let {firstName, lastName, email, role} = body;
 
         if (role) {
+            role = +role;
+
             if (role !== 5 && role !== 10) {
                 throw new CustomError(400, ERROR_MESSAGES.INCORRECT('role'))
             }
         }
 
         if (firstName && userForUpdate.get('firstName') !== firstName) {
-            updateObj.firstName = firstName;
+            updateObj.firstName = _.escape(firstName);
         }
 
         if (lastName && userForUpdate.get('lastName') !== lastName) {
-            updateObj.lastName = lastName;
+            updateObj.lastName = _.escape(lastName);
         }
 
         if (email && userForUpdate.get('email') !== email) {
@@ -159,14 +161,40 @@ class UserController {
 
     async getUsersList(req, res) {
         const query = req.query;
+        let error;
 
-        let {search} = query;
+        let {search, sort} = query;
 
-        search = _.escape(search);
+        try {
+            sort = JSON.parse(sort);
+        } catch (err) {
+            error = err;
+        }
+
+        if (error) {
+            sort = {};
+        }
+
+        let {sortKey = 'role', sortOrder = 1} = sort;
+
+        let sortObj = {};
+        sortOrder = (+sortOrder) === 1 ? 1 : -1;
+        sortKey = CONSTANTS.USERS.SORT_FIELDS.indexOf(sortKey) === -1 ? 'name' : sortKey;
+
+        if (sortKey === 'name') {
+            sortObj = {
+                firstName: sortOrder,
+                lastName : sortOrder
+            };
+        } else {
+            sortObj[sortKey] = sortOrder;
+        }
+
+        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&");
 
         const {page, limit} = pagination(query);
 
-        const [total, data = []] = await userService.fetchUsers(page, limit, search);
+        const [total, data = []] = await userService.fetchUsers(page, limit, search, sortObj);
 
         const meta = {
             page,
