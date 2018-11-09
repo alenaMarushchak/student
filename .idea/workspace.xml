@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3bff93d1-c921-4df6-bfb6-2c7eaba44b57" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/helpers/computeUrl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/files.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/filesLocalStorage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/helpers/pathToUrl.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/profile.js" afterDir="false" />
+    <list default="true" id="3bff93d1-c921-4df6-bfb6-2c7eaba44b57" name="Default" comment="Upload avatar for profile">
+      <change afterPath="$PROJECT_DIR$/helpers/validator/schemas/params/groupIds.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/constants/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/group.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/group.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controllers/subject.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/subject.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controllers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/validator/schemas/user/createUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/validator/schemas/user/createUser.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/helpers/validator/schemas/user/updateUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/validator/schemas/user/updateUser.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/subject.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/subject.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/super.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/super.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/helpers/validator/schemas/params/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/helpers/validator/schemas/params/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routers/admin/group.js" beforeDir="false" afterPath="$PROJECT_DIR$/routers/admin/group.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/services/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/services/user.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -97,35 +89,40 @@
     <session id="-1140983267">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
-          <entry key="project.open.time.1" value="2" />
+          <entry key="project.closed" value="10" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.1" value="3" />
           <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.30" value="1" />
           <entry key="project.open.time.32" value="1" />
+          <entry key="project.open.time.4" value="2" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.open.time.74" value="1" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="js" value="53" />
+          <entry key="js" value="83" />
           <entry key="json" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="53" />
+          <entry key="JavaScript" value="83" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="js" value="737" />
+          <entry key="js" value="1836" />
+          <entry key="txt" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JavaScript" value="737" />
+          <entry key="JavaScript" value="1836" />
+          <entry key="PLAIN_TEXT" value="28" />
         </counts>
       </usages-collector>
     </session>
@@ -133,54 +130,15 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routers/admin/user.js">
+        <entry file="file://$PROJECT_DIR$/routers/admin/subject.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="126">
-              <caret line="7" column="24" lean-forward="true" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+              <caret line="7" column="39" lean-forward="true" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/controllers/user.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="216" column="9" selection-start-line="216" selection-start-column="9" selection-end-line="216" selection-end-column="9" />
-              <folding>
-                <element signature="n#!!block;n#signOut#0;n#UserController#0" />
-                <element signature="n#!!block;n#getUserProfile#0;n#UserController#0" />
-                <element signature="n#!!block;n#createUser#0;n#UserController#0" />
-                <element signature="n#!!block;n#updateUser#0;n#UserController#0" />
-                <element signature="n#!!block;n#deleteUser#0;n#UserController#0" />
-                <element signature="n#!!block;n#getUsersList#0;n#UserController#0" />
-                <element signature="n#!!block;n#getUserById#0;n#UserController#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routers/profile.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="24" column="61" selection-start-line="24" selection-start-column="61" selection-end-line="24" selection-end-column="61" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routers/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="20" column="31" lean-forward="true" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
-              <folding>
-                <element signature="e#619#736#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routers/admin/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
@@ -233,9 +191,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/client/sagas/exports.js" />
-        <option value="$PROJECT_DIR$/src/client/services/validator.js" />
-        <option value="$PROJECT_DIR$/src/client/sagas/profile.js" />
         <option value="$PROJECT_DIR$/src/client/components/Auth/Login.js" />
         <option value="$PROJECT_DIR$/src/client/sagas/stories/index.js" />
         <option value="$PROJECT_DIR$/src/client/sagas/index.js" />
@@ -258,14 +213,11 @@
         <option value="$PROJECT_DIR$/helpers/cors.js" />
         <option value="$PROJECT_DIR$/routers/admin/user.js" />
         <option value="$PROJECT_DIR$/controllers/groupController.js" />
-        <option value="$PROJECT_DIR$/controllers/group.js" />
         <option value="$PROJECT_DIR$/services/group.js" />
         <option value="$PROJECT_DIR$/helpers/validator/schemas/group/create.js" />
         <option value="$PROJECT_DIR$/helpers/validator/schemas/group/updateGroup.js" />
         <option value="$PROJECT_DIR$/helpers/validator/schemas/group/index.js" />
         <option value="$PROJECT_DIR$/services/subject.js" />
-        <option value="$PROJECT_DIR$/controllers/subject.js" />
-        <option value="$PROJECT_DIR$/routers/admin/group.js" />
         <option value="$PROJECT_DIR$/routers/admin/subject.js" />
         <option value="$PROJECT_DIR$/helpers/validator/schemas/subject/index.js" />
         <option value="$PROJECT_DIR$/helpers/validator/schemas/index.js" />
@@ -274,16 +226,22 @@
         <option value="$PROJECT_DIR$/helpers/validator/schemas/user/updateUser.js" />
         <option value="$PROJECT_DIR$/helpers/validator/schemas/user/createUser.js" />
         <option value="$PROJECT_DIR$/routers/auth.js" />
-        <option value="$PROJECT_DIR$/constants/index.js" />
         <option value="$PROJECT_DIR$/helpers/pathToUrl.js" />
         <option value="$PROJECT_DIR$/helpers/files.js" />
-        <option value="$PROJECT_DIR$/services/user.js" />
-        <option value="$PROJECT_DIR$/controllers/user.js" />
         <option value="$PROJECT_DIR$/routers/profile.js" />
         <option value="$PROJECT_DIR$/helpers/computeUrl.js" />
         <option value="$PROJECT_DIR$/routers/index.js" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/services/super.js" />
+        <option value="$PROJECT_DIR$/controllers/subject.js" />
+        <option value="$PROJECT_DIR$/constants/index.js" />
+        <option value="$PROJECT_DIR$/services/user.js" />
+        <option value="$PROJECT_DIR$/controllers/user.js" />
+        <option value="$PROJECT_DIR$/helpers/validator/schemas/params/id.js" />
+        <option value="$PROJECT_DIR$/helpers/validator/schemas/params/groupIds.js" />
+        <option value="$PROJECT_DIR$/helpers/validator/schemas/params/index.js" />
+        <option value="$PROJECT_DIR$/controllers/group.js" />
+        <option value="$PROJECT_DIR$/routers/admin/group.js" />
       </list>
     </option>
   </component>
@@ -313,6 +271,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -323,37 +282,42 @@
             <path>
               <item name="student_server" type="b2602c69:ProjectViewProjectNode" />
               <item name="student_server" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
+              <item name="routers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="student_server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="student_server" type="462c0819:PsiDirectoryNode" />
+              <item name="routers" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../work/wall-tree/bridge_backend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2018.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\proj\myProject\student" />
-      <recent name="D:\proj\myProject\student\src\client" />
-      <recent name="D:\proj\myProject\student\src\server\config" />
-      <recent name="D:\proj\myProject\student\src\server" />
-      <recent name="D:\proj\myProject\student\src" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\proj\myProject\student_server\helpers" />
       <recent name="D:\proj\myProject\student\helpers\validator\schemas\subject" />
       <recent name="D:\proj\myProject\student\helpers\validator\schemas\group" />
       <recent name="D:\proj\myProject\student\src\client\components" />
       <recent name="D:\proj\myProject\student\src\client\services" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\proj\myProject\student" />
+      <recent name="D:\proj\myProject\student\src\client" />
+      <recent name="D:\proj\myProject\student\src\server\config" />
+      <recent name="D:\proj\myProject\student\src\server" />
+      <recent name="D:\proj\myProject\student\src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -501,7 +465,12 @@
       <workItem from="1540644615642" duration="3972000" />
       <workItem from="1540672059745" duration="2622000" />
       <workItem from="1540726718453" duration="1337000" />
-      <workItem from="1541245227685" duration="6201000" />
+      <workItem from="1541245227685" duration="6694000" />
+      <workItem from="1541517930818" duration="609000" />
+      <workItem from="1541529961259" duration="2004000" />
+      <workItem from="1541628879232" duration="3119000" />
+      <workItem from="1541707830480" duration="5143000" />
+      <workItem from="1541775850447" duration="3743000" />
     </task>
     <task id="LOCAL-00001" summary="Commit links">
       <created>1536758045433</created>
@@ -552,11 +521,18 @@
       <option name="project" value="LOCAL" />
       <updated>1540067787952</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Upload avatar for profile">
+      <created>1541276087023</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1541276087023</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="110447000" />
+    <option name="totallyTimeSpent" value="125558000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -569,6 +545,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1552" height="840" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24752475" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -624,7 +601,8 @@
     <MESSAGE value="Fix gitignore" />
     <MESSAGE value="Add group logic" />
     <MESSAGE value="Add subject logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add subject logic" />
+    <MESSAGE value="Upload avatar for profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="Upload avatar for profile" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -636,9 +614,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/client/containers/App/index.js" />
-    <entry file="file://$PROJECT_DIR$/karma.conf.js" />
-    <entry file="file://$PROJECT_DIR$/src/client/index.js" />
     <entry file="file://$PROJECT_DIR$/.travis.yml" />
     <entry file="file://$PROJECT_DIR$/helpers/validator/schemas/user/signIn.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -738,41 +713,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/group.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="66" column="25" lean-forward="true" selection-start-line="66" selection-start-column="25" selection-end-line="66" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/group.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="42" lean-forward="true" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/group.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="106" column="20" lean-forward="true" selection-start-line="106" selection-start-column="20" selection-end-line="106" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/subject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="35" lean-forward="true" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/services/subject.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-589">
@@ -818,13 +758,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/helpers/validator/middleware.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="83" column="34" selection-start-line="83" selection-start-column="34" selection-end-line="83" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/subject.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -836,20 +769,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="10" column="33" lean-forward="true" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routers/admin/subject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="16" column="37" lean-forward="true" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routers/admin/group.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
@@ -885,13 +804,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
           <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/constants/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="25" lean-forward="true" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -934,9 +846,148 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
           <caret line="20" column="31" lean-forward="true" selection-start-line="20" selection-start-column="31" selection-end-line="20" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/subject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="93" column="94" lean-forward="true" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="42" lean-forward="true" selection-start-line="6" selection-start-column="42" selection-end-line="6" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constants/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="23" column="44" selection-start-line="23" selection-start-column="44" selection-end-line="23" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/admin/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="34" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="110" column="9" selection-start-line="110" selection-start-column="9" selection-end-line="110" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="173" column="19" selection-start-line="173" selection-start-column="19" selection-end-line="173" selection-end-column="19" />
           <folding>
-            <element signature="e#619#736#0" />
+            <element signature="n#!!block;n#signIn#0;n#UserController#0" />
+            <element signature="e#898#996#0" />
+            <element signature="e#1166#1264#0" />
+            <element signature="n#!!block;n#signOut#0;n#UserController#0" />
+            <element signature="n#!!block;n#getUserProfile#0;n#UserController#0" />
+            <element signature="n#!!block;n#createUser#0;n#UserController#0" />
+            <element signature="e#1883#1974#0" />
+            <element signature="e#2038#2122#0" />
+            <element signature="e#2278#2407#0" />
+            <element signature="e#2498#2506#0" />
+            <element signature="n#!!block;n#updateUser#0;n#UserController#0" />
+            <element signature="e#2819#2904#0" />
+            <element signature="n#!!block;n#deleteUser#0;n#UserController#0" />
+            <element signature="n#!!block;n#getUserById#0;n#UserController#0" />
+            <element signature="n#!!block;n#updateUsersAvatar#0;n#UserController#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/validator/schemas/params/id.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="6" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/validator/schemas/params/groupIds.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="35" selection-start-line="8" selection-start-column="35" selection-end-line="8" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/validator/schemas/params/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" selection-start-line="10" selection-end-line="10" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="438">
+          <caret line="122" column="27" selection-start-line="122" selection-start-column="10" selection-end-line="122" selection-end-column="27" />
+          <folding>
+            <element signature="n#!!block;n#createGroup#0;n#UserController#0" />
+            <element signature="e#584#674#0" />
+            <element signature="e#727#756#0" />
+            <element signature="n#!!block;n#updateGroup#0;n#UserController#0" />
+            <element signature="e#1057#1143#0" />
+            <element signature="e#1225#1271#0" />
+            <element signature="e#1317#1402#0" />
+            <element signature="e#1506#1596#0" />
+            <element signature="e#1696#1743#0" />
+            <element signature="e#1757#1798#0" />
+            <element signature="n#!!block;n#deleteGroup#0;n#UserController#0" />
+            <element signature="e#2021#2066#0" />
+            <element signature="n#!!block;n#getGroupsList#0;n#UserController#0" />
+            <element signature="e#2527#2633#0" />
+            <element signature="n#!!block;n#getGroupById#0;n#UserController#0" />
+            <element signature="e#2867#2953#0" />
+            <element signature="n#!!block;n#addSubjectToGroup#0;n#GroupController#0" />
+            <element signature="n#!!block;n#addSubjectToGroup#1;n#GroupController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/admin/group.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/admin/subject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="39" lean-forward="true" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/helpers/validator/middleware.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="83" column="34" selection-start-line="83" selection-start-column="34" selection-end-line="83" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -944,36 +995,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="8" column="26" lean-forward="true" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="142" lean-forward="true" selection-start-line="142" selection-end-line="142" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routers/admin/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="24" lean-forward="true" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="216" column="9" selection-start-line="216" selection-start-column="9" selection-end-line="216" selection-end-column="9" />
-          <folding>
-            <element signature="n#!!block;n#signOut#0;n#UserController#0" />
-            <element signature="n#!!block;n#getUserProfile#0;n#UserController#0" />
-            <element signature="n#!!block;n#createUser#0;n#UserController#0" />
-            <element signature="n#!!block;n#updateUser#0;n#UserController#0" />
-            <element signature="n#!!block;n#deleteUser#0;n#UserController#0" />
-            <element signature="n#!!block;n#getUsersList#0;n#UserController#0" />
-            <element signature="n#!!block;n#getUserById#0;n#UserController#0" />
-          </folding>
         </state>
       </provider>
     </entry>

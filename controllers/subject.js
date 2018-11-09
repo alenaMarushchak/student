@@ -89,7 +89,9 @@ class UserController {
 
         const {page, limit} = pagination(query);
 
-        const {search} = query;
+        let {search} = query;
+
+        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&").replace(/ +$/, '');
 
         const [total, data = []] = await subjectService.fetchSubjects(page, limit, search);
 

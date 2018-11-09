@@ -1,19 +1,27 @@
 module.exports = {
-    MODEL: {
-        USER: 'User',
-        GROUP: 'Group',
+    MODEL     : {
+        USER   : 'User',
+        GROUP  : 'Group',
         SUBJECT: 'Subject'
     },
     COLLECTION: {
-        USERS: 'Users',
-        GROUPS: 'Groups',
+        USERS   : 'Users',
+        GROUPS  : 'Groups',
         SUBJECTS: 'Subjects'
     },
 
     ROLES: {
-        ADMIN: 1,
+        ADMIN  : 1,
         STUDENT: 10,
         TEACHER: 5
+    },
+
+    VALIDATION: {
+        SPEC_SYMBOLS: /[-[\]{}()*+?`"<>.,\\/^$|#\s]/g,
+    },
+
+    USERS: {
+        SORT_FIELDS: ['name', 'role', 'email']
     },
 
     FILES: {
@@ -25,7 +33,7 @@ module.exports = {
         },
 
         MIMETYPES: {
-            IMG  : ['image/jpeg', 'image/png'],
+            IMG: ['image/jpeg', 'image/png'],
         },
 
         LIMITS: {
