@@ -81,6 +81,49 @@ class GroupService extends SuperService {
 
         return this.aggregateOne(aggregatePipelines);
     }
+
+    getGroupsBySubject(subjectId, page, limit, search) {
+        const skip = (page - 1) * limit;
+        const match = {};
+        const aggregatePipelines = [];
+        const searchRegExp = new RegExp('.*' + search + '.*', 'ig');
+
+        match.subjects = {
+            $in: [ObjectId(subjectId)]
+        };
+
+        if (search) {
+            match.name = searchRegExp;
+        }
+
+        aggregatePipelines.push(
+            {
+                $match: match
+            },
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+            {
+                $skip: skip
+            },
+            {
+                $limit: limit
+            },
+            {
+                $project: {
+                    _id : 1,
+                    name: 1,
+                }
+            }
+        );
+
+        return Promise.all([
+            this.count(match),
+            this.aggregate(aggregatePipelines)
+        ]);
+    }
 }
 
 module.exports = new GroupService(GroupModel);

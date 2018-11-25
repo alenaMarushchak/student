@@ -155,6 +155,67 @@ class UserService extends SuperService {
             this.aggregate(aggregateParams)
         ]);
     }
+
+    fetchStudentsForSelect(page, limit, search) {
+        const aggregateParams = [];
+        const skip = (page - 1) * limit;
+        const searchRegExp = new RegExp('.*' + search + '.*', 'ig');
+        let match = {};
+
+        if (search) {
+            match = {
+                $and: [
+                    {role: CONSTANTS.ROLES.STUDENT},
+                    {
+                        $or: [
+                            {
+                                $and: [
+                                    {
+                                        firstName: {$regex: searchRegExp}
+                                    },
+                                    {
+                                        lastName: {$regex: searchRegExp}
+                                    },
+                                ]
+                            },
+                            {
+                                email: {$regex: searchRegExp}
+                            }
+                        ]
+                    }
+                ]
+            }
+        } else {
+            match = {role: CONSTANTS.ROLES.STUDENT};
+        }
+
+        aggregateParams.push(
+            {
+                $match: match
+            },
+            {
+                $sort: {
+                    createdAt: 1
+                }
+            },
+            {
+                $skip: skip
+            },
+            {
+                $limit: limit
+            },
+            {
+                $project: {
+                    _id : 1,
+                    name: {$concat: ["$firstName", " ", "$lastName"]}
+                }
+            });
+
+        return Promise.all([
+            this.count(match),
+            this.aggregate(aggregateParams)
+        ]);
+    }
 }
 
 module.exports = new UserService(UserModel);

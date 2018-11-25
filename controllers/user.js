@@ -256,6 +256,27 @@ class UserController {
 
         res.status(200).send(userService.getUserProjection(user));
     }
+
+    async getStudentsForSelect(req, res) {
+        const query = req.query;
+
+        let {search} = query;
+
+        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&");
+
+        const {page, limit} = pagination(query);
+
+        const [total, data = []] = await userService.fetchStudentsForSelect(page, limit, search);
+
+        const meta = {
+            page,
+            limit,
+            total,
+            pages: pages(total, limit)
+        };
+
+        res.status(200).send({meta, data});
+    }
 }
 
 module.exports = new UserController();

@@ -5,12 +5,14 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const groupService = require('../services/group');
 const subjectService = require('../services/subject');
+const userService = require('../services/user');
 
 const ERROR_MESSAGES = require('../constants/error');
 const RESPONSE_MESSAGES = require('../constants/response');
 const CONSTANTS = require('../constants/index');
 
 const {pagination, pages} = require('../helpers/parser');
+const {each} = require('../helpers/async');
 
 const CustomError = require('../helpers/CustomError');
 
@@ -19,7 +21,23 @@ class GroupController {
     async createGroup(req, res) {
         const body = req.body;
 
-        const {name} = body;
+        let {name, subjects} = body;
+
+        if (!Array.isArray(subjects)) {
+            throw new CustomError(404, ERROR_MESSAGES.INCORRECT('subjects'));
+        }
+
+        subjects = subjects.map(item => ObjectId(item._id));
+
+        if (subjects.length) {
+            each(subjects, async function (subjectId) {
+                const subjectModel = await subjectService.findById(subjectId);
+
+                if (!subjectModel) {
+                    throw new CustomError(400, ERROR_MESSAGES.INCORRECT('subject'));
+                }
+            })
+        }
 
         const groupWithSameName = await groupService.findOne({name});
 
@@ -29,6 +47,7 @@ class GroupController {
 
         const groupModel = await groupService.save({
             name,
+            subjects
         });
 
         res.status(201).send(groupService.getGroupProjection(groupModel));
@@ -37,7 +56,7 @@ class GroupController {
     async updateGroup(req, res) {
         const {body, params: {id: groupId}} = req;
 
-        const {name} = body;
+        let {name, subjects = []} = body;
 
         const groupForUpdate = await groupService.findById(groupId);
 
@@ -45,11 +64,29 @@ class GroupController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
         }
 
+        if (!Array.isArray(subjects)) {
+            throw new CustomError(404, ERROR_MESSAGES.INCORRECT('subjects'));
+        }
+
+        subjects = subjects.map(item => ObjectId(item._id));
+
+        if (subjects.length) {
+            each(subjects, async function (subjectId) {
+                const subjectModel = await subjectService.findById(subjectId);
+
+                if (!subjectModel) {
+                    throw new CustomError(400, ERROR_MESSAGES.INCORRECT('subject'));
+                }
+            })
+        }
+
         const updateObj = {};
 
         if (groupForUpdate.get('name') !== name) {
             updateObj.name = name;
         }
+
+        updateObj.subjects = subjects;
 
         if (!Object.keys(updateObj).length) {
             throw new CustomError(400, ERROR_MESSAGES.NOTHING_TO_UPDATE);
@@ -120,75 +157,60 @@ class GroupController {
         res.status(200).send(groupProfile);
     }
 
-    async addSubjectToGroup(req, res) {
-        const {id: groupId, subjectId} = req.params;
+    async getGroupsBySubject(req, res) {
+        const {params: {id: subjectId}, query} = req;
 
-        const groupDocument = await groupService.findById(groupId).lean();
+        const {page, limit} = pagination(query);
 
-        if (!groupDocument) {
-            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
-        }
+        let {search} = query;
 
-        const subjectDocument = await subjectService.findById(subjectId).lean();
+        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&").replace(/ +$/, '');
 
-        if (!subjectDocument) {
-            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('subject'));
-        }
+        const [total, data = []] = await groupService.getGroupsBySubject(subjectId, page, limit, search);
 
-        const {subjects} = groupDocument;
+        const meta = {
+            page,
+            limit,
+            total,
+            pages: pages(total, limit)
+        };
 
-        let hasSubject = subjects.find(subject => subject.toString() === subjectId);
-
-        if (hasSubject) {
-            return res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('add subject')});
-        }
-
-        await groupService.updateOne(
-            {_id: groupId},
-            {
-                $push: {
-                    subjects: ObjectId(subjectId)
-                }
-            }
-        );
-
-        res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('add subject')});
-
+        res.status(200).send({meta, data});
     }
 
-    async removeSubjectFromGroup(req, res) {
-        const {id: groupId, subjectId} = req.params;
+    async addRemoveStudentsFromGroup(req, res) {
+        let {params: {id: groupId}, body: {students}} = req;
 
-        const groupDocument = await groupService.findById(groupId).lean();
+        const groupProfile = await groupService.getGroupById(groupId);
 
-        if (!groupDocument) {
+        if (!groupProfile) {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
         }
 
-        const subjectDocument = await subjectService.findById(subjectId).lean();
-
-        if (!subjectDocument) {
-            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('subject'));
+        if (!Array.isArray(students)) {
+            throw new CustomError(404, ERROR_MESSAGES.INCORRECT('subjects'));
         }
 
-        const {subjects} = groupDocument;
+        students = students.map(item => ObjectId(item._id));
 
-        let hasSubject = subjects.find(subject => subject.toString() === subjectId);
+        if (students.length) {
+            each(students, async function (studentId) {
+                const studentModel = await userService.findOne({
+                    _id : ObjectId(studentId),
+                    role: CONSTANTS.ROLES.STUDENT
+                });
 
-        if (!hasSubject) {
-            return res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('remove subject')});
-        }
-
-        await groupService.updateOne(
-            {_id: groupId},
-            {
-                $pull: {
-                    subjects: ObjectId(subjectId)
+                if (!studentModel) {
+                    throw new CustomError(400, ERROR_MESSAGES.INCORRECT('student'));
                 }
-            }
-        );
+            })
+        }
 
-        res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('remove subject')});
+        groupProfile.set('students', students);
+
+        await groupProfile.save();
+
+        res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('added students to group')});
     }
 }
 

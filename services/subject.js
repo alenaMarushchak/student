@@ -80,6 +80,47 @@ class SubjectService extends SuperService {
 
         return this.aggregateOne(aggregatePipelines);
     }
+
+    getSubjectsByTeacherId(teacherId, page, limit, search){
+        const skip = (page - 1) * limit;
+        const match = {
+            teacher: ObjectId(teacherId)
+        };
+        const aggregatePipelines = [];
+        const searchRegExp = new RegExp('.*' + search + '.*', 'ig');
+
+        if (search) {
+            match.name = searchRegExp;
+        }
+
+        aggregatePipelines.push(
+            {
+                $match: match
+            },
+            {
+                $sort: {
+                    createdAt: -1
+                }
+            },
+            {
+                $skip: skip
+            },
+            {
+                $limit: limit
+            },
+            {
+                $project: {
+                    _id : 1,
+                    name: 1,
+                }
+            }
+        );
+
+        return Promise.all([
+            this.count(match),
+            this.aggregate(aggregatePipelines)
+        ]);
+    }
 }
 
 module.exports = new SubjectService(SubjectModel);
