@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const mongoose = require('mongoose');
 
 const subjectService = require('../services/subject');
 
@@ -10,8 +11,9 @@ const {pagination, pages} = require('../helpers/parser');
 
 const CustomError = require('../helpers/CustomError');
 
+const ObjectId = mongoose.Types.ObjectId;
 
-class UserController {
+class SubjectController {
 
     async createSubject(req, res) {
         const body = req.body;
@@ -117,6 +119,94 @@ class UserController {
 
         res.status(200).send(subjectProfile);
     }
+
+    async getTeahersSubject(req, res) {
+        const {
+            session: {
+                userId
+            },
+            query
+        } = req;
+
+        const {page, limit} = pagination(query);
+
+        let {search} = query;
+
+        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&").replace(/ +$/, '');
+
+        const [total, data = []] = await subjectService.getSubjectsByTeacherId(userId, page, limit, search);
+
+        const meta = {
+            page,
+            limit,
+            total,
+            pages: pages(total, limit)
+        };
+
+        res.status(200).send({meta, data});
+    }
+
+    async addTeacherToSubject(req, res) {
+        const {
+            session: {
+                userId
+            },
+            params : {
+                id
+            }
+        } = req;
+
+        const subjectModel = await subjectService.findById(id);
+
+        if (!subjectModel) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('subject'));
+        }
+
+        const teacher = subjectModel.get('teacher') ;
+
+        if (teacher && (teacher.toString() === userId.toString())) {
+            return res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('add teacher to subject')});
+        }
+
+        if (teacher) {
+            throw new CustomError(400, ERROR_MESSAGES.ALREADY_EXISTS('teacher'));
+        }
+
+        subjectModel.set('teacher', ObjectId(userId));
+
+        await subjectModel.save();
+
+        res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('add teacher to subject')});
+    }
+
+    async removeTeacherFromSubject(req, res) {
+        const {
+            session: {
+                userId
+            },
+            params : {
+                id
+            }
+        } = req;
+
+        const subjectModel = await subjectService.findById(id);
+
+        if (!subjectModel) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('subject'));
+        }
+
+        const teacher = subjectModel.get('teacher');
+
+        if (teacher.toString() !== userId.toString()) {
+            return res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('remove teacher from subject')});
+        }
+
+        subjectModel.set('teacher', null);
+
+        await subjectModel.save();
+
+        res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('remove teacher from subject')});
+    }
 }
 
-module.exports = new UserController();
+module.exports = new SubjectController();

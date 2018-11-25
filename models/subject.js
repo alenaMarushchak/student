@@ -15,7 +15,8 @@ const schema = new Schema(
         },
 
         teacher: {
-            type: ObjectId
+            type: ObjectId,
+            default: null
         },
 
         pointTypes: {
