@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.get('/own', subjectController.getTeahersSubject);
 
-router.get('/', subjectController.getSubjectsList);
+router.get('/', subjectController.getSubjectsListWithoutCurrentTeacher);
+
+router.get('/:id/groups', validatorMiddleware().params('ID').middleware(), subjectController.getGroupsBySubject);
 
 router.put('/:id/add', validatorMiddleware().params('ID').middleware(), subjectController.addTeacherToSubject);
 

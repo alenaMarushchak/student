@@ -11,6 +11,7 @@ const CONSTANTS = require('../constants');
 const ObjectId = mongoose.Types.ObjectId;
 
 class SubjectService extends SuperService {
+
     getSubjectProjection(groupModel) {
         const result = groupModel.toJSON ? groupModel.toJSON() : groupModel;
 
@@ -20,7 +21,7 @@ class SubjectService extends SuperService {
         }
     }
 
-    fetchSubjects(page, limit, search) {
+    fetchSubjects(page, limit, search, param) {
         const skip = (page - 1) * limit;
         const match = {};
         const aggregatePipelines = [];
@@ -28,6 +29,10 @@ class SubjectService extends SuperService {
 
         if (search) {
             match.name = searchRegExp;
+        }
+
+        if (param) {
+            Object.assign(match, param);
         }
 
         aggregatePipelines.push(
@@ -81,7 +86,7 @@ class SubjectService extends SuperService {
         return this.aggregateOne(aggregatePipelines);
     }
 
-    getSubjectsByTeacherId(teacherId, page, limit, search){
+    getSubjectsByTeacherId(teacherId, page, limit, search) {
         const skip = (page - 1) * limit;
         const match = {
             teacher: ObjectId(teacherId)
@@ -121,6 +126,7 @@ class SubjectService extends SuperService {
             this.aggregate(aggregatePipelines)
         ]);
     }
+
 }
 
 module.exports = new SubjectService(SubjectModel);
