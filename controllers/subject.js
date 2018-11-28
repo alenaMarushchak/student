@@ -2,6 +2,7 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 
 const subjectService = require('../services/subject');
+const groupService = require('../services/group');
 
 const ERROR_MESSAGES = require('../constants/error');
 const RESPONSE_MESSAGES = require('../constants/response');
@@ -107,6 +108,39 @@ class SubjectController {
         res.status(200).send({meta, data});
     }
 
+    async getSubjectsListWithoutCurrentTeacher(req, res) {
+        const {
+            session: {
+                userId
+            },
+            query
+        } = req;
+
+        const {page, limit} = pagination(query);
+
+        let {search} = query;
+
+        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&").replace(/ +$/, '');
+
+        const [total, data = []] = await subjectService.fetchSubjects(
+            page,
+            limit,
+            search,
+            {
+                teacher: {$ne: userId}
+            }
+        );
+
+        const meta = {
+            page,
+            limit,
+            total,
+            pages: pages(total, limit)
+        };
+
+        res.status(200).send({meta, data});
+    }
+
     async getSubjectById(req, res) {
         const {params: {id: subjectId}} = req;
 
@@ -162,7 +196,7 @@ class SubjectController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('subject'));
         }
 
-        const teacher = subjectModel.get('teacher') ;
+        const teacher = subjectModel.get('teacher');
 
         if (teacher && (teacher.toString() === userId.toString())) {
             return res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('add teacher to subject')});
@@ -206,6 +240,27 @@ class SubjectController {
         await subjectModel.save();
 
         res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('remove teacher from subject')});
+    }
+
+    async getGroupsBySubject(req, res) {
+        const {params: {id: subjectId}, query} = req;
+
+        const {page, limit} = pagination(query);
+
+        let {search} = query;
+
+        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&").replace(/ +$/, '');
+
+        const [total, data = []] = await groupService.getGroupsBySubject(subjectId, page, limit, search);
+
+        const meta = {
+            page,
+            limit,
+            total,
+            pages: pages(total, limit)
+        };
+
+        res.status(200).send({meta, data});
     }
 }
 
