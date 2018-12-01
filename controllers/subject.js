@@ -62,7 +62,7 @@ class SubjectController {
         }
 
         const subjectModel = await subjectService.findByIdAndUpdate(
-            SubjectId,
+            subjectId,
             {
                 $set: updateObj
             },
@@ -127,7 +127,7 @@ class SubjectController {
             limit,
             search,
             {
-                teacher: {$ne: userId}
+                teacher: {$ne: ObjectId(userId)}
             }
         );
 

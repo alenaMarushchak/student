@@ -169,14 +169,10 @@ class UserService extends SuperService {
                     {
                         $or: [
                             {
-                                $and: [
-                                    {
-                                        firstName: {$regex: searchRegExp}
-                                    },
-                                    {
-                                        lastName: {$regex: searchRegExp}
-                                    },
-                                ]
+                                firstName: {$regex: searchRegExp}
+                            },
+                            {
+                                lastName: {$regex: searchRegExp}
                             },
                             {
                                 email: {$regex: searchRegExp}

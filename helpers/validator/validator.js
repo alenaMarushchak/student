@@ -13,13 +13,15 @@ validate.extend(validate.validators.datetime, {
     }
 });
 
-validate.validators.requiredOnlyOneFromTwo = (value, opts, key, target) => {
-    const message = 'One field is required';
 
-    if ((!value && !target[opts]) || (value && target[opts])) {
-        return message;
+validate.validators.isArray = function (value, opts, key, target) {
+    let {message = `Incorrect ${key} - value`, isRequired = false} = opts;
+
+    if (isRequired && !validate.isArray(value)) {
+        return message
     }
 };
+
 
 validate.validators.timestampBetween = function (value, opts, key, target) {
     let {start = 0, end = Date.now(), message = `Incorrect ${key} - value`} = opts;

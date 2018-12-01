@@ -268,6 +268,8 @@ class UserController {
 
         const [total, data = []] = await userService.fetchStudentsForSelect(page, limit, search);
 
+        //Fix edit доробити все по викладачу, виставлення оцінок,
+
         const meta = {
             page,
             limit,

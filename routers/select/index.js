@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/subject', subjectController.getSubjectsList);
 
-router.get('/students', userController.getStudentsForSelect);
+router.get('/student', userController.getStudentsForSelect);
 
 module.exports = router;
