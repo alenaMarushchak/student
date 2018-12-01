@@ -1,13 +1,17 @@
 module.exports = {
     MODEL     : {
-        USER   : 'User',
-        GROUP  : 'Group',
-        SUBJECT: 'Subject'
+        USER      : 'User',
+        GROUP     : 'Group',
+        SUBJECT   : 'Subject',
+        POINT_TYPE: 'PointType',
+        POINT     : 'Point'
     },
     COLLECTION: {
-        USERS   : 'Users',
-        GROUPS  : 'Groups',
-        SUBJECTS: 'Subjects'
+        USERS      : 'Users',
+        GROUPS     : 'Groups',
+        SUBJECTS   : 'Subjects',
+        POINT_TYPES: 'PointTypes',
+        POINTS     : 'Points'
     },
 
     ROLES: {
@@ -42,4 +46,10 @@ module.exports = {
             FIFTY_MB: 1024 * 1024 * 50
         }
     },
+
+    POINT_TYPES: {
+        EXAM   : 'EXAM',
+        MODULE1: 'MODULE1',
+        MODULE2: 'MODULE2'
+    }
 };

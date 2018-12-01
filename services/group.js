@@ -68,13 +68,48 @@ class GroupService extends SuperService {
                     _id: ObjectId(groupId)
                 }
             },
-            //TODO add lookup
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.SUBJECTS,
+                    localField  : 'subjects',
+                    foreignField: '_id',
+                    as          : 'subjects'
+                }
+            },
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.USERS,
+                    localField  : 'students',
+                    foreignField: '_id',
+                    as          : 'students'
+                }
+            },
             {
                 $project: {
                     _id     : 1,
                     name    : 1,
-                    students: 1,
-                    subjects: 1,
+                    students: {
+                        $map: {
+                            input: "$students",
+                            as   : "item",
+                            in   : {
+                                _id   : '$$item._id',
+                                name  : {$concat: ['$$item.firstName', ' ', '$$item.lastName']},
+                                email : '$$item.email',
+                                avatar: '$$item.avatar',
+                            }
+                        }
+                    },
+                    subjects: {
+                        $map: {
+                            input: "$subjects",
+                            as   : "item",
+                            in   : {
+                                _id : '$$item._id',
+                                name: '$$item.name'
+                            }
+                        }
+                    }
                 }
             }
         );

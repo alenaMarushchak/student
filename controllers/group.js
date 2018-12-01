@@ -12,6 +12,7 @@ const RESPONSE_MESSAGES = require('../constants/response');
 const CONSTANTS = require('../constants/index');
 
 const {pagination, pages} = require('../helpers/parser');
+const computeUrl = require('../helpers/computeUrl');
 const {each} = require('../helpers/async');
 
 const CustomError = require('../helpers/CustomError');
@@ -55,8 +56,9 @@ class GroupController {
 
     async updateGroup(req, res) {
         const {body, params: {id: groupId}} = req;
+        const updateObj = {};
 
-        let {name, subjects = []} = body;
+        let {name, subjects, students} = body;
 
         const groupForUpdate = await groupService.findById(groupId);
 
@@ -64,38 +66,51 @@ class GroupController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
         }
 
-        if (!Array.isArray(subjects)) {
-            throw new CustomError(404, ERROR_MESSAGES.INCORRECT('subjects'));
-        }
-
-        subjects = subjects.map(item => ObjectId(item._id));
-
-        if (subjects.length) {
-            each(subjects, async function (subjectId) {
-                const subjectModel = await subjectService.findById(subjectId);
-
-                if (!subjectModel) {
-                    throw new CustomError(400, ERROR_MESSAGES.INCORRECT('subject'));
-                }
-            })
-        }
-
-        const updateObj = {};
-
-        if (groupForUpdate.get('name') !== name) {
+        if (name && groupForUpdate.get('name') !== name) {
             updateObj.name = name;
-        }
-
-        updateObj.subjects = subjects;
-
-        if (!Object.keys(updateObj).length) {
-            throw new CustomError(400, ERROR_MESSAGES.NOTHING_TO_UPDATE);
         }
 
         const groupWithSameName = await groupService.findOne({name});
 
         if (groupWithSameName) {
             throw new CustomError(400, ERROR_MESSAGES.ALREADY_EXISTS('name'));
+        }
+
+        if (students) {
+
+            if (students.length) {
+                students = students.map(item => ObjectId(item._id));
+
+                each(students, async function (studentId) {
+                    const studentModel = await userService.findOne({
+                        _id : ObjectId(studentId),
+                        role: CONSTANTS.ROLES.STUDENT
+                    });
+
+                    if (!studentModel) {
+                        throw new CustomError(400, ERROR_MESSAGES.INCORRECT('student'));
+                    }
+                })
+            }
+
+            updateObj.students = students;
+        }
+
+        if (subjects) {
+            if (subjects.length) {
+
+                subjects = subjects.map(item => ObjectId(item._id));
+
+                each(subjects, async function (subjectId) {
+                    const subjectModel = await subjectService.findById(subjectId);
+
+                    if (!subjectModel) {
+                        throw new CustomError(400, ERROR_MESSAGES.INCORRECT('subject'));
+                    }
+                })
+            }
+
+            updateObj.subjects = subjects;
         }
 
         const groupModel = await groupService.findByIdAndUpdate(
@@ -154,6 +169,16 @@ class GroupController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
         }
 
+        if (groupProfile.students && groupProfile.students.length) {
+            groupProfile.students = groupProfile.students.map(item => {
+                if (item.avatar) {
+                    item.avatar = computeUrl(item.avatar, CONSTANTS.FILES.BUCKETS.AVATAR)
+                }
+
+                return item;
+            });
+        }
+
         res.status(200).send(groupProfile);
     }
 
@@ -176,41 +201,6 @@ class GroupController {
         };
 
         res.status(200).send({meta, data});
-    }
-
-    async addRemoveStudentsFromGroup(req, res) {
-        let {params: {id: groupId}, body: {students}} = req;
-
-        const groupProfile = await groupService.getGroupById(groupId);
-
-        if (!groupProfile) {
-            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
-        }
-
-        if (!Array.isArray(students)) {
-            throw new CustomError(404, ERROR_MESSAGES.INCORRECT('subjects'));
-        }
-
-        students = students.map(item => ObjectId(item._id));
-
-        if (students.length) {
-            each(students, async function (studentId) {
-                const studentModel = await userService.findOne({
-                    _id : ObjectId(studentId),
-                    role: CONSTANTS.ROLES.STUDENT
-                });
-
-                if (!studentModel) {
-                    throw new CustomError(400, ERROR_MESSAGES.INCORRECT('student'));
-                }
-            })
-        }
-
-        groupProfile.set('students', students);
-
-        await groupProfile.save();
-
-        res.status(200).send({message: RESPONSE_MESSAGES.SUCCESS('added students to group')});
     }
 }
 
