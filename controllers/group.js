@@ -189,7 +189,9 @@ class GroupController {
 
         let {search} = query;
 
-        search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&").replace(/ +$/, '');
+        if (search) {
+            search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&").replace(/ +$/, '');
+        }
 
         const [total, data = []] = await groupService.getGroupsBySubject(subjectId, page, limit, search);
 
@@ -201,6 +203,14 @@ class GroupController {
         };
 
         res.status(200).send({meta, data});
+    }
+
+    async getStudentsOfGroupWithPoints(req, res) {
+        const {params: {id, subjectId}} = req;
+
+        const data = await groupService.getStudentsListWithPoints(id, subjectId);
+
+        res.status(200).send(data);
     }
 }
 

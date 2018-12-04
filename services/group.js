@@ -159,6 +159,100 @@ class GroupService extends SuperService {
             this.aggregate(aggregatePipelines)
         ]);
     }
+
+    getStudentsListWithPoints(groupId, subjectId) {
+        const aggregatePipelines = [
+            {
+                $match: {
+                    _id: ObjectId(groupId)
+                }
+            },
+            {
+                $unwind: {
+                    path: '$students'
+                }
+            },
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.POINTS,
+                    localField  : 'students',
+                    foreignField: 'student',
+                    as          : 'points'
+                }
+            },
+            {
+                $addFields: {
+                    points: {
+                       $filter: {
+                           input: "$points",
+                           as   : "point",
+                           cond : {$eq: ["$$point.subject", ObjectId(subjectId)]}
+                       }
+                    }
+                }
+            },
+            {
+                $unwind: {
+                    path                      : '$points',
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.POINT_TYPES,
+                    localField  : 'points.typeOfPoint',
+                    foreignField: '_id',
+                    as          : 'points.pointName'
+                }
+            },
+            {
+                $addFields: {
+                    'points.pointName': {$arrayElemAt: ['$points.pointName', 0]}
+                }
+            },
+            {
+                $group: {
+                    _id   : '$students',
+                    points: {$push: '$points'}
+                }
+            },
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.USERS,
+                    localField  : '_id',
+                    foreignField: '_id',
+                    as          : 'name'
+                }
+            },
+            {
+                $addFields: {
+                    name  : {$arrayElemAt: ['$name', 0]},
+                    points: {
+                        $map: {
+                            input: "$points",
+                            as   : "point",
+                            in   : {
+                                pointName: '$$point.pointName.name',
+                                value    : '$$point.value'
+                            }
+                        }
+                    }
+                }
+            },
+            {
+                $addFields: {
+                    name: {$concat: ['$name.firstName', ' ', '$name.lastName']}
+                }
+            },
+            {
+                $sort: {
+                    name: 1
+                }
+            }
+        ];
+
+        return this.aggregate(aggregatePipelines);
+    }
 }
 
 module.exports = new GroupService(GroupModel);
