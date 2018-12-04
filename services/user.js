@@ -274,8 +274,7 @@ class UserService extends SuperService {
                     _id      : 1,
                     email    : 1,
                     avatar   : 1,
-                    lastName : 1,
-                    firstName: 1,
+                    name     : {$concat: ['$firstName', ' ', '$lastName']},
                     createdAt: 1,
                 }
             }
@@ -356,8 +355,8 @@ class UserService extends SuperService {
                             input: "$points",
                             as   : "point",
                             in   : {
-                                typeOfPoint: "$$point.typeOfPoint",
-                                value      : "$$point.value"
+                                pointName: "$$point.typeOfPoint",
+                                value    : "$$point.value"
                             }
                         }
                     }
