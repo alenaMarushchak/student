@@ -13,6 +13,8 @@ const domain = config.domain || 'localhost';
 const server = http.createServer(app);
 
 const createAdmin = require('./helpers/createDefaultAdmin');
+const createPointTypes = require('./helpers/createPointTypes');
+const createFakeData = require('./helpers/createFakeData');
 
 function onError(error) {
     if (error.syscall !== 'listen') {
@@ -55,6 +57,8 @@ async function init(db) {
     require('./app')(app, db);
 
     createAdmin();
+    createPointTypes();
+   // createFakeData();
 
     server.listen(port, domain);
 }

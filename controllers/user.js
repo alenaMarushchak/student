@@ -279,6 +279,70 @@ class UserController {
 
         res.status(200).send({meta, data});
     }
+
+    async getStudentsList(req, res) {
+        const query = req.query;
+        let error;
+
+        let {search, sort} = query;
+
+        try {
+            sort = JSON.parse(sort);
+        } catch (err) {
+            error = err;
+        }
+
+        if (error) {
+            sort = {};
+        }
+
+        let {sortKey = 'createdAt', sortOrder = 1} = sort;
+
+        let sortObj = {};
+        sortOrder = (+sortOrder) === 1 ? 1 : -1;
+        sortKey = CONSTANTS.USERS.SORT_FIELDS.indexOf(sortKey) === -1 ? 'name' : sortKey;
+
+        if (sortKey === 'name') {
+            sortObj = {
+                firstName: sortOrder,
+                lastName : sortOrder
+            };
+        } else {
+            sortObj[sortKey] = sortOrder;
+        }
+
+        if (search) {
+            search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&");
+        }
+
+
+        const {page, limit} = pagination(query);
+
+        const [total, data = []] = await userService.fetchStudentsList(page, limit, search, sortObj);
+
+        const meta = {
+            page,
+            limit,
+            total,
+            pages: pages(total, limit)
+        };
+
+        res.status(200).send({meta, data});
+    }
+
+    async getPointsOfStudentForAllTime(req, res) {
+        const {params: {id}} = req;
+
+        const studentModel = await userService.findById(id);
+
+        if (!studentModel) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('student'));
+        }
+
+        const data = await userService.getPointsOfStudent(id);
+
+        res.status(200).send(data);
+    }
 }
 
 module.exports = new UserController();

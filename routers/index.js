@@ -15,16 +15,16 @@ const router = express.Router();
 
 router.use(auth);
 
-router.use(isAuthorize);
+//router.use(isAuthorize);
 
 router.use('/profile', profile);
 router.use('/select', select);
 
 router.use('/admin', isAdmin, admin);
 
-router.use('/teacher', isTeacher, teacher);
-//
-// router.use('/student', isStudent, student);
+router.use('/teacher',/* isTeacher, */teacher);
+
+//router.use('/student', isStudent, student);
 
 router.use((req, res, next) => {
     const err = new Error('Not Found');

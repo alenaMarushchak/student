@@ -21,7 +21,7 @@ class SubjectController {
 
     async addEditPoint(req, res) {
         const {
-            params : {id: pointTypeId},
+            params : {type: pointType},
             body   : {
                 subjectId,
                 studentId,
@@ -39,7 +39,7 @@ class SubjectController {
             groupModel
         ] = await Promise.all([
 
-            pointTypeService.findById(pointTypeId),
+            pointTypeService.findByType(pointType),
 
             userService.findOne({
                 _id : ObjectId(studentId),
@@ -67,18 +67,20 @@ class SubjectController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('student'));
         }
 
-        if (subjectModel.teacher !== userId) {
+        if (!subjectModel.teacher || subjectModel.teacher.toString() !== userId) {
             throw new CustomError(403, ERROR_MESSAGES.FORBIDDEN);
         }
 
+        const pointTypeId = pointTypeModel.get('_id');
+
         await pointService.updateOne({
-                type   : ObjectId(pointTypeId),
-                student: ObjectId(),
-                subject: ObjectId()
+                typeOfPoint: ObjectId(pointTypeId),
+                student    : ObjectId(studentId),
+                subject    : ObjectId(subjectId)
             },
             {
                 value,
-                teacher: userId
+                teacher: ObjectId(userId)
             },
             {
                 upsert: true
