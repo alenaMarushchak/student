@@ -5,7 +5,11 @@ const {validatorMiddleware} = require('../../helpers/validator');
 
 const router = express.Router();
 
+router.get('/', groupController.getGroupsList);
+
 router.get('/subject/:id', validatorMiddleware().params('ID').middleware(), groupController.getGroupsBySubject);
+
+router.get('/:id',validatorMiddleware().params('ID').middleware(), groupController.getGroupById);
 
 router.get('/:id/subject/:subjectId',
     validatorMiddleware().params('GROUP_IDS').middleware(),

@@ -212,6 +212,28 @@ class GroupController {
 
         res.status(200).send(data);
     }
+
+    async getMyGroup(req, res) {
+        const {session: {userId}} = req;
+
+        let groupProfile = await groupService.getGroupOfStudent(userId);
+
+        if (!groupProfile) {
+            throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
+        }
+
+        if (groupProfile && groupProfile.length) {
+            groupProfile = groupProfile.map(item => {
+                if (item.avatar) {
+                    item.avatar = computeUrl(item.avatar, CONSTANTS.FILES.BUCKETS.AVATAR)
+                }
+
+                return item;
+            });
+        }
+
+        res.status(200).send(groupProfile);
+    }
 }
 
 module.exports = new GroupController();

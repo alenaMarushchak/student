@@ -318,7 +318,15 @@ class UserController {
 
         const {page, limit} = pagination(query);
 
-        const [total, data = []] = await userService.fetchStudentsList(page, limit, search, sortObj);
+        let [total, data = []] = await userService.fetchStudentsList(page, limit, search, sortObj);
+
+        if (data && data.length) {
+            data = data.map(item => {
+                item.avatar = computeUrl(item.avatar, CONSTANTS.FILES.BUCKETS.AVATAR);
+
+                return item;
+            })
+        }
 
         const meta = {
             page,
@@ -339,7 +347,11 @@ class UserController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('student'));
         }
 
-        const data = await userService.getPointsOfStudent(id);
+        let data = await userService.getPointsOfStudent(id);
+
+        if (!data || !data[0]._id) {
+            data = [];
+        }
 
         res.status(200).send(data);
     }

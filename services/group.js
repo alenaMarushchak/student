@@ -183,11 +183,11 @@ class GroupService extends SuperService {
             {
                 $addFields: {
                     points: {
-                       $filter: {
-                           input: "$points",
-                           as   : "point",
-                           cond : {$eq: ["$$point.subject", ObjectId(subjectId)]}
-                       }
+                        $filter: {
+                            input: "$points",
+                            as   : "point",
+                            cond : {$eq: ["$$point.subject", ObjectId(subjectId)]}
+                        }
                     }
                 }
             },
@@ -247,6 +247,55 @@ class GroupService extends SuperService {
             {
                 $sort: {
                     name: 1
+                }
+            }
+        ];
+
+        return this.aggregate(aggregatePipelines);
+    }
+
+
+    getGroupOfStudent(studentId) {
+        const aggregatePipelines = [
+            {
+                $match: {
+                    students: {$in: [ObjectId(studentId)]}
+                }
+            },
+            {
+                $unwind: {
+                    path: '$students'
+                }
+            },
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.USERS,
+                    localField  : '_id',
+                    foreignField: '_id',
+                    as          : 'name'
+                }
+            },
+            {
+                $addFields: {
+                    name: {$arrayElemAt: ['$name', 0]}
+                }
+            },
+            {
+                $addFields: {
+                    name: {$concat: ['$name.firstName', ' ', '$name.lastName']}
+                }
+            },
+            {
+                $sort: {
+                    name: 1
+                }
+            },
+            {
+                $project: {
+                    _id   : 1,
+                    name  : 1,
+                    avatar: 1,
+                    email : 1
                 }
             }
         ];
