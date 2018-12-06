@@ -4,14 +4,20 @@ module.exports = {
         GROUP     : 'Group',
         SUBJECT   : 'Subject',
         POINT_TYPE: 'PointType',
-        POINT     : 'Point'
+        POINT     : 'Point',
+        BLOG      : 'Blog',
+        POST      : 'Post',
+        COMMENT   : 'Comment'
     },
     COLLECTION: {
         USERS      : 'Users',
         GROUPS     : 'Groups',
         SUBJECTS   : 'Subjects',
         POINT_TYPES: 'PointTypes',
-        POINTS     : 'Points'
+        POINTS     : 'Points',
+        BLOG       : 'BlogCollection',
+        POSTS      : 'Posts',
+        COMMENTS   : 'Comments'
     },
 
     ROLES: {

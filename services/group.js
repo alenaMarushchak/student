@@ -270,37 +270,48 @@ class GroupService extends SuperService {
             {
                 $lookup: {
                     from        : CONSTANTS.COLLECTION.USERS,
-                    localField  : '_id',
+                    localField  : 'students',
                     foreignField: '_id',
-                    as          : 'name'
+                    as          : 'student'
                 }
             },
             {
                 $addFields: {
-                    name: {$arrayElemAt: ['$name', 0]}
+                    student: {$arrayElemAt: ['$student', 0]}
                 }
             },
             {
                 $addFields: {
-                    name: {$concat: ['$name.firstName', ' ', '$name.lastName']}
+                    'student.name': {$concat: ['$student.firstName', ' ', '$student.lastName']}
                 }
             },
             {
                 $sort: {
-                    name: 1
+                    'student.name': 1
                 }
             },
             {
                 $project: {
-                    _id   : 1,
-                    name  : 1,
-                    avatar: 1,
-                    email : 1
+                    _id     : 1,
+                    name    : 1,
+                    students: {
+                        _id   : '$student._id',
+                        name  : '$student.name',
+                        avatar: '$student.avatar',
+                        email : '$student.email'
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id     : '$_id',
+                    name    : {$first: '$name'},
+                    students: {$push: '$students'}
                 }
             }
         ];
 
-        return this.aggregate(aggregatePipelines);
+        return this.aggregateOne(aggregatePipelines);
     }
 }
 
