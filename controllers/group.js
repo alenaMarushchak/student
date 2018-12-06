@@ -222,8 +222,8 @@ class GroupController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('group'));
         }
 
-        if (groupProfile && groupProfile.length) {
-            groupProfile = groupProfile.map(item => {
+        if (groupProfile.students && groupProfile.students.length) {
+            groupProfile.students = groupProfile.students.map(item => {
                 if (item.avatar) {
                     item.avatar = computeUrl(item.avatar, CONSTANTS.FILES.BUCKETS.AVATAR)
                 }

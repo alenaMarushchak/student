@@ -355,6 +355,18 @@ class UserController {
 
         res.status(200).send(data);
     }
+
+    async getOwnStudentPoints(req, res) {
+        const {session: {userId}} = req;
+
+        let data = await userService.getPointsOfStudent(userId);
+
+        if (!data || !data[0]._id) {
+            data = [];
+        }
+
+        res.status(200).send(data);
+    }
 }
 
 module.exports = new UserController();

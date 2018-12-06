@@ -6,3 +6,5 @@ const {validatorMiddleware} = require('../../helpers/validator');
 const router = express.Router();
 
 router.get('/', groupController.getMyGroup);
+
+module.exports = router;
