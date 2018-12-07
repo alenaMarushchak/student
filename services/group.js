@@ -313,6 +313,79 @@ class GroupService extends SuperService {
 
         return this.aggregateOne(aggregatePipelines);
     }
+
+    getGroupStatistic() {
+        const aggregatePipelines = [
+            {
+                $project: {
+                    name : 1,
+                    value: {$size: '$students'}
+                }
+            }
+        ];
+
+        return this.aggregate(aggregatePipelines);
+    }
+
+    getStundentsGroupStatistic() {
+        const aggregatePipelines = [
+            {
+                $unwind: {
+                    path: '$students'
+                }
+            },
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.POINTS,
+                    localField  : 'students',
+                    foreignField: '_id',
+                    as          : 'points'
+                }
+            },
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.USERS,
+                    localField  : 'students',
+                    foreignField: '_id',
+                    as          : 'student'
+                }
+            },
+            {
+                $addFields: {
+                    points : {
+                        $map: {
+                            input: "$points",
+                            as   : "point",
+                            in   : '$$point.value'
+
+                        }
+                    },
+                    student: {$arrayElemAt: ['$student', 0]}
+                }
+            },
+            {
+                $addFields: {
+                    student: {$concat: ['$student.firstName', ' ', '$student.lastName']},
+                    points : {$avg: '$points'}
+                }
+            },
+            {
+                $group: {
+                    _id     : '$_id',
+                    name    : {$first: '$name'},
+                    students: {
+                        $push: {
+                            name: '$student',
+                            value : '$points'
+                        }
+                    }
+                }
+            }
+        ];
+
+        return this.aggregate(aggregatePipelines);
+    }
 }
 
-module.exports = new GroupService(GroupModel);
+module
+    .exports = new GroupService(GroupModel);

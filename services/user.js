@@ -372,6 +372,58 @@ class UserService extends SuperService {
 
         return this.aggregate(aggregateParams);
     }
+
+    getUserStatistic() {
+        const aggregateParams = [
+            {
+                $match: {
+                    $or: [
+                        {role: CONSTANTS.ROLES.STUDENT},
+                        {role: CONSTANTS.ROLES.TEACHER},
+                    ]
+                }
+            },
+            {
+                $group: {
+                    _id : null,
+                    data: {$push: '$$ROOT'}
+                }
+            },
+            {
+                $addFields: {
+                    students: {
+                        $filter: {
+                            input: '$data',
+                            as   : "user",
+                            cond : {$eq: ['$$user.role', CONSTANTS.ROLES.STUDENT]}
+                        }
+                    },
+                    teachers: {
+                        $filter: {
+                            input: '$data',
+                            as   : "user",
+                            cond : {$eq: ['$$user.role', CONSTANTS.ROLES.TEACHER]}
+                        }
+                    }
+                }
+            },
+            {
+                $addFields: {
+                    students: {$size: '$students'},
+                    teachers: {$size: '$teachers'},
+                }
+            },
+            {
+                $project: {
+                    _id     : 0,
+                    students: 1,
+                    teachers: 1
+                }
+            }
+        ];
+
+        return this.aggregateOne(aggregateParams);
+    }
 }
 
 module.exports = new UserService(UserModel);
