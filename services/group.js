@@ -338,7 +338,7 @@ class GroupService extends SuperService {
                 $lookup: {
                     from        : CONSTANTS.COLLECTION.POINTS,
                     localField  : 'students',
-                    foreignField: '_id',
+                    foreignField: 'student',
                     as          : 'points'
                 }
             },
@@ -353,11 +353,14 @@ class GroupService extends SuperService {
             {
                 $addFields: {
                     points : {
-                        $map: {
-                            input: "$points",
-                            as   : "point",
-                            in   : '$$point.value'
-
+                        $ceil: {
+                            $avg: {
+                                $map: {
+                                    input: "$points",
+                                    as   : "point",
+                                    in   : '$$point.value'
+                                }
+                            }
                         }
                     },
                     student: {$arrayElemAt: ['$student', 0]}
@@ -366,7 +369,6 @@ class GroupService extends SuperService {
             {
                 $addFields: {
                     student: {$concat: ['$student.firstName', ' ', '$student.lastName']},
-                    points : {$avg: '$points'}
                 }
             },
             {
@@ -375,8 +377,8 @@ class GroupService extends SuperService {
                     name    : {$first: '$name'},
                     students: {
                         $push: {
-                            name: '$student',
-                            value : '$points'
+                            name : '$student',
+                            value: '$points'
                         }
                     }
                 }
