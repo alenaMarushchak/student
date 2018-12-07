@@ -3,7 +3,7 @@
 module.exports = {
     title: {
         format  : {
-            pattern: "[A-z]+[0-9]+",
+            pattern: "^[a-zA-Z0-9_.-]*$",
             flags  : "i",
             message: "can only contain a-z "
         },
@@ -19,7 +19,7 @@ module.exports = {
 
     description: {
         format  : {
-            pattern: "[A-z]+[0-9]+",
+            pattern: "^[a-zA-Z0-9_.-]*$",
             flags  : "i",
             message: "can only contain a-z "
         },
