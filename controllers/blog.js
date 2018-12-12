@@ -13,8 +13,6 @@ const CONSTANTS = require('../constants/index');
 
 const CustomError = require('../helpers/CustomError');
 const {pagination, pages} = require('../helpers/parser');
-const fileHelper = require('../helpers/files');
-const computeUrl = require('../helpers/computeUrl');
 
 class BlogController {
 
@@ -26,7 +24,7 @@ class BlogController {
         if (search) {
             search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&");
         }
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let [total, data = []] = await blogService.fetch(page, limit, search);
 
@@ -101,7 +99,7 @@ class BlogController {
         if (search) {
             search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&");
         }
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let [total, data = []] = await postService.fetch(blogId, page, limit, search);
 
@@ -183,9 +181,6 @@ class BlogController {
 
     async getPostById(req, res) {
         let {
-            session: {
-                userId
-            },
             params : {
                 id: postId,
             }

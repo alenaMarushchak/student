@@ -163,7 +163,7 @@ module.exports = async function () {
             }
         ]);
 
-        console.log('==== Point inserted successfully======');
+        console.log('==== Data inserted successfully======');
 
     } catch (err) {
         console.error(err);

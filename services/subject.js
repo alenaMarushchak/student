@@ -73,12 +73,48 @@ class SubjectService extends SuperService {
                     _id: ObjectId(subjectId)
                 }
             },
-            //TODO add lookup
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.USERS,
+                    localField  : 'teacher',
+                    foreignField: '_id',
+                    as          : 'teacher'
+                }
+            },
+            {
+                $lookup: {
+                    from        : CONSTANTS.COLLECTION.GROUPS,
+                    localField  : '_id',
+                    foreignField: 'subjects',
+                    as          : 'groups'
+                }
+            },
+            {
+                $addFields: {
+                    teacher: {$arrayElemAt: ['$teacher', 0]},
+                    groups : {
+                        $map: {
+                            input: '$groups',
+                            as   : 'group',
+                            in   : {
+                                _id : '$$group._id',
+                                name: '$$group.name'
+                            }
+                        }
+                    }
+                }
+            },
             {
                 $project: {
                     _id    : 1,
                     name   : 1,
-                    teacher: 1,
+                    teacher: {
+                        _id   : '$teacher._id',
+                        email : '$teacher.email',
+                        name  : {$concat: ['$teacher.firstName', ' ', '$teacher.lastName']},
+                        avatar: '$teacher.avatar'
+                    },
+                    groups : 1
                 }
             }
         );
