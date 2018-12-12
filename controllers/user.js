@@ -192,7 +192,7 @@ class UserController {
 
         search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&");
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         const [total, data = []] = await userService.fetchUsers(page, limit, search, sortObj);
 
@@ -264,7 +264,7 @@ class UserController {
 
         search = search.replace(CONSTANTS.VALIDATION.SPEC_SYMBOLS, "\\$&");
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         const [total, data = []] = await userService.fetchStudentsForSelect(page, limit, search);
 
@@ -316,7 +316,7 @@ class UserController {
         }
 
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let [total, data = []] = await userService.fetchStudentsList(page, limit, search, sortObj);
 

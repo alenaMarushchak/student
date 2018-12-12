@@ -7,6 +7,7 @@ const groupService = require('../services/group');
 const ERROR_MESSAGES = require('../constants/error');
 const RESPONSE_MESSAGES = require('../constants/response');
 const CONSTANTS = require('../constants/index');
+const computeUrl = require('../helpers/computeUrl');
 
 const {pagination, pages} = require('../helpers/parser');
 
@@ -90,7 +91,7 @@ class SubjectController {
     async getSubjectsList(req, res) {
         const query = req.query;
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let {search} = query;
 
@@ -116,7 +117,7 @@ class SubjectController {
             query
         } = req;
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let {search} = query;
 
@@ -150,6 +151,9 @@ class SubjectController {
             throw new CustomError(404, ERROR_MESSAGES.NOT_FOUND('subject'));
         }
 
+        if (subjectProfile.teacher && subjectProfile.teacher._id) {
+            subjectProfile.teacher.avatar = computeUrl(subjectProfile.teacher.avatar, CONSTANTS.FILES.BUCKETS.AVATAR)
+        }
 
         res.status(200).send(subjectProfile);
     }
@@ -162,7 +166,7 @@ class SubjectController {
             query
         } = req;
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let {search} = query;
 
@@ -245,7 +249,7 @@ class SubjectController {
     async getGroupsBySubject(req, res) {
         const {params: {id: subjectId}, query} = req;
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let {search} = query;
 

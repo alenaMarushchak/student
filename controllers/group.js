@@ -13,7 +13,6 @@ const CONSTANTS = require('../constants/index');
 
 const {pagination, pages} = require('../helpers/parser');
 const computeUrl = require('../helpers/computeUrl');
-const {each} = require('../helpers/async');
 
 const CustomError = require('../helpers/CustomError');
 
@@ -28,16 +27,17 @@ class GroupController {
             throw new CustomError(404, ERROR_MESSAGES.INCORRECT('subjects'));
         }
 
-        subjects = subjects.map(item => ObjectId(item._id));
 
         if (subjects.length) {
-            each(subjects, async function (subjectId) {
-                const subjectModel = await subjectService.findById(subjectId);
+            subjects = subjects.map(item => ObjectId(item._id));
 
-                if (!subjectModel) {
-                    throw new CustomError(400, ERROR_MESSAGES.INCORRECT('subject'));
-                }
-            })
+            const subjectModels = await await subjectService.find({
+                _id: {$in: subjects}
+            });
+
+            if (!subjectModels.length) {
+                throw new CustomError(400, ERROR_MESSAGES.INCORRECT('subject'));
+            }
         }
 
         const groupWithSameName = await groupService.findOne({name});
@@ -81,33 +81,31 @@ class GroupController {
             if (students.length) {
                 students = students.map(item => ObjectId(item._id));
 
-                each(students, async function (studentId) {
-                    const studentModel = await userService.findOne({
-                        _id : ObjectId(studentId),
-                        role: CONSTANTS.ROLES.STUDENT
-                    });
+                const studentModels = await userService.find({
+                    role: CONSTANTS.ROLES.STUDENT,
+                    _id : {$in: students}
+                });
 
-                    if (!studentModel) {
-                        throw new CustomError(400, ERROR_MESSAGES.INCORRECT('student'));
-                    }
-                })
+                if (!studentModels.length) {
+                    throw new CustomError(400, ERROR_MESSAGES.INCORRECT('student'));
+                }
             }
 
             updateObj.students = students;
         }
 
         if (subjects) {
-            if (subjects.length) {
 
+            if (subjects.length) {
                 subjects = subjects.map(item => ObjectId(item._id));
 
-                each(subjects, async function (subjectId) {
-                    const subjectModel = await subjectService.findById(subjectId);
+                const subjectModels = await await subjectService.find({
+                    _id: {$in: subjects}
+                });
 
-                    if (!subjectModel) {
-                        throw new CustomError(400, ERROR_MESSAGES.INCORRECT('subject'));
-                    }
-                })
+                if (!subjectModels.length) {
+                    throw new CustomError(400, ERROR_MESSAGES.INCORRECT('subject'));
+                }
             }
 
             updateObj.subjects = subjects;
@@ -142,7 +140,7 @@ class GroupController {
     async getGroupsList(req, res) {
         const query = req.query;
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let {search} = query;
 
@@ -185,7 +183,7 @@ class GroupController {
     async getGroupsBySubject(req, res) {
         const {params: {id: subjectId}, query} = req;
 
-        const {page, limit} = pagination(query);
+        const {page, limit} = pagination(query || {});
 
         let {search} = query;
 
