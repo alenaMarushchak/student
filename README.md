@@ -3,6 +3,8 @@
 Hi, this is a simple project to demonstrate my skills on **nodeJS** . 
 This is backend-side project for Student Management System.
 
+The main idea behind this project is the control of the learning process by students and teachers. Students can receive data from their subjects, teachers present ratings and view progress statistics.
+
 Main requirements: 
 
 The system should have three roles:
